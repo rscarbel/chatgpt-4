@@ -1,38 +1,94 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: auto;
   text-align: center;
+  width: 100%;
+  max-width: 1000px;
+  background-color:rgb(239, 243, 255);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+input[type=text] {
+  font-family: 'Montserrat', sans-serif;
+  padding: 0.3em 0.7em;
+  border-radius: 0.7em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button {
+  padding: 0.5em 3em;
+  border-radius: 10px;
+  width: fit-content;
+  border: none;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 45%), 0 2px 6px 0 rgb(0 0 0 / 45%);
+  margin:1em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+button:hover {
+  cursor: pointer;
+  background-color: rgb(224, 224, 224);
+}
+
+.text-input-container {
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.text-output-container {
+  background-color: rgb(239, 255, 234);
+  display: flex;
+  margin: auto;
+  padding: 20px;
+  border-radius: 1em;
+  overflow: auto;
+  margin-bottom: 30px;
+}
+
+.text-output-container-error {
+  background-color: rgb(255, 234, 234);
+  display: flex;
+  margin: auto;
+  padding: 20px;
+  border-radius: 1em;
+  overflow: auto;
+  margin-bottom: 30px;
+}
+
+textarea {
+  border: 2px solid #ddd;
+  overflow: auto;
+  border-radius: 4px;
+  font-size: 18px;
+  padding: 10px;
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #0077ff;
+  box-shadow: 0 0 0 2px rgba(0, 119, 255, 0.2);
+}
+
+.small-shadow {
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 45%), 0 3px 10px 0 rgb(0 0 0 / 45%);
+}
+
+.flex-container {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-around;
 }
 
-.App-link {
-  color: #61dafb;
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.speaker {
+  text-align: left;
+  display: flex;
+  padding: .5em;
+  width: 100%;
+  font-weight: bold;
 }
