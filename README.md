@@ -6,3 +6,5 @@
   - run `npm start` to start the project
 
 The project will then be available at `localhost:3006`
+
+![image](https://user-images.githubusercontent.com/40727301/227738505-307b3155-b8b9-45cc-939d-3d30da61d2e2.png)
