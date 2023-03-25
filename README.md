@@ -5,4 +5,4 @@
   - run `npm build` to build the project
   - run `npm start` to start the project
 
-The project will then be available at `localhost:3000`
+The project will then be available at `localhost:3006`
