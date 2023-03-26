@@ -162,6 +162,10 @@ textarea:focus {
   margin-top: 180px;
 }
 
+.no-margin {
+  margin: 0;
+}
+
 .collapse-icon {
   margin-top: -21px;
   position: fixed;

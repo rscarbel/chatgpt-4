@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { GPT_MODELS, GPT_MAX_TOKENS } from "../constants";
 
 const chevronDown = (
@@ -33,12 +33,16 @@ const chevronUp = (
   </svg>
 );
 
-export const Toolbar = () => {
-  const [model, setModel] = useState(GPT_MODELS[0]);
-  const [maxTokens, setMaxTokens] = useState(GPT_MAX_TOKENS[model]);
-  const [temperature, setTemperature] = useState(1);
-  const [collapsed, setCollapsed] = useState(false);
-
+export const Toolbar = ({
+  model,
+  setModel,
+  maxTokens,
+  setMaxTokens,
+  temperature,
+  setTemperature,
+  collapsed,
+  setCollapsed,
+}) => {
   const handleModelChange = (event) => {
     const newModel = event.target.value;
     setModel(newModel);
