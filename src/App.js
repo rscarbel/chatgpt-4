@@ -4,23 +4,34 @@ import { TextInputBox } from "./components/TextInputBox";
 import { TextOutputBox } from "./components/TextOutputBox";
 import { SubmitButton } from "./components/SubmitButton";
 import { Toolbar } from "./components/Toolbar";
-import { GPT_MODELS } from "./constants";
+import { GPT_MODELS, DEFAULT_MAX_TOKENS } from "./constants";
 import "./App.css";
 
 const App = () => {
   const [conversations, setConversations] = useState([
-    { input: "", output: "" },
+    {
+      input: "",
+      output: {
+        error: false,
+        message: "",
+        timestamp: "",
+        modelUsed: "",
+        tokensUsed: "",
+      },
+    },
   ]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [model, setModel] = useState(GPT_MODELS[0]);
-  const [maxTokens, setMaxTokens] = useState(1500);
+  const [maxTokens, setMaxTokens] = useState(DEFAULT_MAX_TOKENS);
   const [temperature, setTemperature] = useState(1);
   const [collapsed, setCollapsed] = useState(false);
+  const [totalTokensUsed, setTotalTokensUsed] = useState(0);
+  const [messageHistory, setMessageHistory] = useState([]);
 
-  const handleInputChange = (index, value) => {
+  const handleInputChange = (value) => {
     const newConversations = [...conversations];
-    newConversations[index].input = value;
-    setConversations(newConversations);
+    newConversations[currentIndex].input = value;
+    setConversations([...newConversations]);
   };
 
   const handleGenerateResponse = async () => {
@@ -31,15 +42,28 @@ const App = () => {
       maxTokens,
       temperature,
     });
+    setMessageHistory(response.messageHistory);
+    const tokensUsed = response.tokensUsed;
     const newConversations = [...conversations];
-    newConversations[currentIndex].output = response;
-    newConversations.push({ input: "", output: "" });
-    setConversations(newConversations);
+    newConversations[currentIndex].output = {
+      error: response.error,
+      message: response.message,
+      timestamp: response.timestamp,
+      modelUsed: response.model,
+      tokensUsed,
+    };
+    newConversations.push({
+      input: "",
+      output: { message: "", timestamp: "", modelUsed: "", tokensUsed: "" },
+    });
+    setConversations([...newConversations]);
     setCurrentIndex(currentIndex + 1);
+    setTotalTokensUsed(totalTokensUsed + tokensUsed);
   };
 
   return (
     <div className="App">
+      {console.log(messageHistory)}
       <Toolbar
         model={model}
         setModel={setModel}
@@ -49,6 +73,7 @@ const App = () => {
         setTemperature={setTemperature}
         collapsed={collapsed}
         setCollapsed={setCollapsed}
+        tokensUsed={totalTokensUsed}
       />
       <div className={`chat-container ${collapsed ? "no-margin" : ""}`}>
         {conversations.map((conversation, index) => (
@@ -56,13 +81,17 @@ const App = () => {
             <TextInputBox
               value={conversation.input}
               onChange={(e) => {
-                handleInputChange(index, e.target.value);
-                setCurrentIndex(index);
+                handleInputChange(e.target.value);
               }}
               isReadOnly={index !== currentIndex}
             />
-            {conversation.output !== "" && (
-              <TextOutputBox model={model} response={conversation.output} />
+            {conversation.output.message && (
+              <TextOutputBox
+                model={conversation.output.modelUsed}
+                response={conversation.output.message}
+                timestamp={conversation.output.timestamp}
+                tokensUsed={conversation.output.tokensUsed}
+              />
             )}
           </div>
         ))}

@@ -1,15 +1,18 @@
 import React from "react";
 
-export const TextOutputBox = ({ response, model = "ChatGPT" }) => {
+export const TextOutputBox = ({ response, model, timestamp, tokensUsed }) => {
   const classStyling = response.error
     ? "text-output-container-error small-shadow"
     : "text-output-container small-shadow";
   return (
     <div className="output">
-      <span className="speaker">{model}</span>
+      <span className="speaker">
+        {model} {new Date(timestamp).toTimeString()}
+      </span>
       <div className={classStyling}>
-        <p>{response.message}</p>
+        <p>{response}</p>
       </div>
+      <div className="request-cost">Cost of request: {tokensUsed}</div>
     </div>
   );
 };

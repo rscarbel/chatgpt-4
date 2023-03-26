@@ -16,12 +16,16 @@ input[type=text] {
 }
 
 button {
-  padding: 0.5em 3em;
+  padding: 1em 4.5em 1em 3em;
   border-radius: 10px;
   width: fit-content;
   border: none;
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 45%), 0 2px 6px 0 rgb(0 0 0 / 45%);
-  margin:1em;
+}
+
+.button-icon {
+  margin: 0 0 0 1.4em;
+  position: absolute;
 }
 
 button:hover {
@@ -33,6 +37,10 @@ button:hover {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+}
+
+.align-middle {
+  align-self: center;
 }
 
 .text-output-container {
@@ -167,8 +175,9 @@ textarea:focus {
 }
 
 .collapse-icon {
-  margin-top: -21px;
+  margin-top: 143px;
   position: fixed;
+  z-index: 0;
   background-color: rgb(255, 255, 255);
   width: 40px;
   height: 20px;
@@ -192,6 +201,57 @@ textarea:focus {
 .collapse-icon-collapsed:hover {
   cursor: pointer;
 }
+
+.question-tooltip-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  z-index: 10;
+  top: 40px;
+  margin-left: 170px;
+}
+
+.question-tooltip-container:hover .question-tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.question-tooltip-container .icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.question-tooltip-container .question-tooltip-text {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 450px;
+  z-index: 11;
+  transform: translateX(-70%);
+  background-color: rgb(208, 207, 232);
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 45%), 0 3px 10px 0 rgb(0 0 0 / 45%);
+  color: rgb(75, 75, 75);
+  padding: 15px;
+  border-radius: 12px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+.hidden {
+  display: none;
+}
+
+.request-cost {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: -20px 0 0 20px;
+  padding-bottom: 15px;
+}
+
+
 
 /* When the screen gets smaller than 600px, the toolbar stacks */
 @media screen and (max-width: 600px) {
