@@ -13,7 +13,7 @@ const messageHistory = [
 
 export const generateText = async ({
   prompt,
-  temperature = 0.7,
+  temperature = 1,
   max_tokens = 1500,
   gptVersion = GPT_MODELS[0],
 }) => {

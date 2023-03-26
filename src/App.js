@@ -26,7 +26,6 @@ const App = () => {
   const [temperature, setTemperature] = useState(1);
   const [collapsed, setCollapsed] = useState(false);
   const [totalTokensUsed, setTotalTokensUsed] = useState(0);
-  const [messageHistory, setMessageHistory] = useState([]);
 
   const handleInputChange = (value) => {
     const newConversations = [...conversations];
@@ -38,11 +37,10 @@ const App = () => {
     const prompt = conversations[currentIndex].input;
     const response = await generateText({
       prompt,
-      model,
+      gptVersion: model,
       maxTokens,
       temperature,
     });
-    setMessageHistory(response.messageHistory);
     const tokensUsed = response.tokensUsed;
     const newConversations = [...conversations];
     newConversations[currentIndex].output = {
@@ -63,7 +61,6 @@ const App = () => {
 
   return (
     <div className="App">
-      {console.log(messageHistory)}
       <Toolbar
         model={model}
         setModel={setModel}

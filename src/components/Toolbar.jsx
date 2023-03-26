@@ -31,14 +31,14 @@ export const Toolbar = ({
   const handleMaxTokensChange = (event) => {
     const value = event.target.value;
     if (!isNaN(value) && value >= 0 && value <= GPT_MAX_TOKENS[model]) {
-      setMaxTokens(value);
+      setMaxTokens(parseInt(value));
     }
   };
 
   const handleTemperatureChange = (event) => {
     const value = event.target.value;
     if (!isNaN(value) && value >= 0 && value <= MAX_TEMPERATURE) {
-      setTemperature(value);
+      setTemperature(parseFloat(value));
     }
   };
 
@@ -87,7 +87,7 @@ export const Toolbar = ({
             min="1"
             max={GPT_MAX_TOKENS[model]}
             value={maxTokens}
-            onChange={(e) => setMaxTokens(e.target.value)}
+            onChange={(e) => setMaxTokens(parseInt(e.target.value))}
           />
           <QuestionTooltip answer={maxTokensDescription} isHidden={collapsed} />
         </div>
@@ -109,7 +109,7 @@ export const Toolbar = ({
             max="2"
             step="0.1"
             value={temperature}
-            onChange={(e) => setTemperature(e.target.value)}
+            onChange={(e) => setTemperature(parseFloat(e.target.value))}
           />
           <QuestionTooltip
             answer={temperatureDescription}
