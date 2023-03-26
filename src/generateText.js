@@ -1,4 +1,4 @@
-import { GPT_MODELS, GPT_MAX_TOKENS } from "./constants";
+import { GPT_MODELS, GPT_MAX_TOKENS, TEST_RESPONSE } from "./constants";
 import axios from "axios";
 const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
 const OPEN_AI_URL = "https://api.openai.com/v1/chat/completions";
@@ -17,6 +17,8 @@ export const generateText = async ({
   max_tokens = 1500,
   gptVersion = GPT_MODELS[0],
 }) => {
+  return TEST_RESPONSE;
+
   const validation = validate(prompt, max_tokens, gptVersion);
   if (validation?.error) {
     return validation;
