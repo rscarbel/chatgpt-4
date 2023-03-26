@@ -3,6 +3,7 @@ import { generateText } from "./generateText";
 import { TextInputBox } from "./components/TextInputBox";
 import { TextOutputBox } from "./components/TextOutputBox";
 import { SubmitButton } from "./components/SubmitButton";
+import { Toolbar } from "./components/Toolbar";
 import "./App.css";
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
 
   const handleGenerateResponse = async () => {
     const prompt = conversations[currentIndex].input;
-    const response = await generateText(prompt);
+    const response = await generateText({ prompt: prompt });
     const newConversations = [...conversations];
     newConversations[currentIndex].output = response;
     newConversations.push({ input: "", output: "" });
@@ -28,26 +29,29 @@ const App = () => {
   };
 
   return (
-    <div className="chat-container">
-      {conversations.map((conversation, index) => (
-        <div key={index}>
-          <TextInputBox
-            value={conversation.input}
-            onChange={(e) => {
-              handleInputChange(index, e.target.value);
-              setCurrentIndex(index);
-            }}
-            isReadOnly={index !== currentIndex}
-          />
-          {conversation.output !== "" && (
-            <TextOutputBox response={conversation.output} />
-          )}
-        </div>
-      ))}
-      <SubmitButton
-        onClick={handleGenerateResponse}
-        currentIndex={currentIndex}
-      />
+    <div className="App">
+      <Toolbar />
+      <div className="chat-container">
+        {conversations.map((conversation, index) => (
+          <div key={index}>
+            <TextInputBox
+              value={conversation.input}
+              onChange={(e) => {
+                handleInputChange(index, e.target.value);
+                setCurrentIndex(index);
+              }}
+              isReadOnly={index !== currentIndex}
+            />
+            {conversation.output !== "" && (
+              <TextOutputBox response={conversation.output} />
+            )}
+          </div>
+        ))}
+        <SubmitButton
+          onClick={handleGenerateResponse}
+          currentIndex={currentIndex}
+        />
+      </div>
     </div>
   );
 };
