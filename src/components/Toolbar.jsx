@@ -46,12 +46,12 @@ export const Toolbar = ({
   const handleModelChange = (event) => {
     const newModel = event.target.value;
     setModel(newModel);
-    setMaxTokens(GPT_MAX_TOKENS[newModel]);
+    setMaxTokens(1500);
   };
 
   const handleMaxTokensChange = (event) => {
     const value = event.target.value;
-    if (!isNaN(value)) {
+    if (!isNaN(value) && value >= 0 && value <= GPT_MAX_TOKENS[model]) {
       setMaxTokens(value);
     }
   };

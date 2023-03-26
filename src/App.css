@@ -56,9 +56,9 @@ button:hover {
 }
 
 textarea {
-  border: 2px solid #ddd;
+  border: 2px solid #bdbdbd;
   overflow: auto;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 18px;
   padding: 10px;
   resize: none;
@@ -122,8 +122,8 @@ textarea:focus {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 15px;
-  border: 1px solid black;
+  padding: 20px;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 45%), 0 3px 10px 0 rgb(0 0 0 / 45%);
   border-radius: 1em;
   margin: 1em;
   background-color: white;

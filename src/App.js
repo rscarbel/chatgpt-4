@@ -4,7 +4,7 @@ import { TextInputBox } from "./components/TextInputBox";
 import { TextOutputBox } from "./components/TextOutputBox";
 import { SubmitButton } from "./components/SubmitButton";
 import { Toolbar } from "./components/Toolbar";
-import { GPT_MODELS, GPT_MAX_TOKENS } from "./constants";
+import { GPT_MODELS } from "./constants";
 import "./App.css";
 
 const App = () => {
@@ -13,7 +13,7 @@ const App = () => {
   ]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [model, setModel] = useState(GPT_MODELS[0]);
-  const [maxTokens, setMaxTokens] = useState(GPT_MAX_TOKENS[model]);
+  const [maxTokens, setMaxTokens] = useState(1500);
   const [temperature, setTemperature] = useState(1);
   const [collapsed, setCollapsed] = useState(false);
 
