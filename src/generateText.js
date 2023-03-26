@@ -17,7 +17,7 @@ export const generateText = async ({
   max_tokens = 1500,
   gptVersion = GPT_MODELS[0],
 }) => {
-  return TEST_RESPONSE;
+  // return TEST_RESPONSE;
 
   const validation = validate(prompt, max_tokens, gptVersion);
   if (validation?.error) {
