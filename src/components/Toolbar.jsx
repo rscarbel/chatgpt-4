@@ -12,7 +12,11 @@ const temperatureDescription =
   "The temperature parameter controls the randomness of the model. The higher the temperature, the more random the model will be.";
 
 const trimCost = (cost) => {
-  return Math.round(cost * 1000) / 1000;
+  let costString = cost.toString();
+  if (costString.length > 5) {
+    costString = costString.substring(0, 5);
+  }
+  return costString;
 };
 
 export const Toolbar = ({

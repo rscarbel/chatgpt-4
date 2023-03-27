@@ -21,12 +21,12 @@ export const TextOutputBox = ({ response, model, timestamp, tokensUsed }) => {
   return (
     <div className="output">
       <span className="speaker">
-        {model} {formatTime(timestamp)}
+        {model} {formatTime(parseInt(timestamp))}
       </span>
       <div className={classStyling}>
         <p dangerouslySetInnerHTML={{ __html: htmlContent }}></p>
       </div>
-      <div className="request-cost">Cost of request: {tokensUsed}</div>
+      <div className="request-cost">Tokens used in request: {tokensUsed}</div>
     </div>
   );
 };
