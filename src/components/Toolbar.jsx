@@ -11,6 +11,10 @@ const maxTokensDescription =
 const temperatureDescription =
   "The temperature parameter controls the randomness of the model. The higher the temperature, the more random the model will be.";
 
+const trimCost = (cost) => {
+  return Math.round(cost * 1000) / 1000;
+};
+
 export const Toolbar = ({
   model,
   setModel,
@@ -21,6 +25,7 @@ export const Toolbar = ({
   collapsed,
   setCollapsed,
   tokensUsed,
+  cost,
 }) => {
   const handleModelChange = (event) => {
     const newModel = event.target.value;
@@ -117,8 +122,9 @@ export const Toolbar = ({
           />
         </div>
         <div className={parameterClassNames}>
-          <label className={hiddenClassName} htmlFor="tokens-used">
-            Tokens Used: {tokensUsed}
+          <label className={hiddenClassName}>Tokens Used: {tokensUsed}</label>
+          <label className={hiddenClassName}>
+            Total cost: ${trimCost(cost)}
           </label>
         </div>
         <div

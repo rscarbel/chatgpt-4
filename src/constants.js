@@ -1,6 +1,11 @@
 export const GPT_MAX_TOKENS = {
-  "gpt-3.5-turbo": 2049,
-  "gpt-4": 4097,
+  "gpt-3.5-turbo": 4096,
+  "gpt-4": 8192,
+};
+
+export const GPT_COST_PER_1000 = {
+  "gpt-3.5-turbo": 0.002,
+  "gpt-4": 0.06,
 };
 
 export const GPT_MODELS = Object.keys(GPT_MAX_TOKENS);

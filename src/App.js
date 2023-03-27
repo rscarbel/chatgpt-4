@@ -4,7 +4,7 @@ import { TextInputBox } from "./components/TextInputBox";
 import { TextOutputBox } from "./components/TextOutputBox";
 import { SubmitButton } from "./components/SubmitButton";
 import { Toolbar } from "./components/Toolbar";
-import { GPT_MODELS, DEFAULT_MAX_TOKENS } from "./constants";
+import { GPT_MODELS, DEFAULT_MAX_TOKENS, GPT_COST_PER_1000 } from "./constants";
 import "./App.css";
 
 const App = () => {
@@ -26,6 +26,8 @@ const App = () => {
   const [temperature, setTemperature] = useState(1);
   const [collapsed, setCollapsed] = useState(false);
   const [totalTokensUsed, setTotalTokensUsed] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [totalCost, setTotalCost] = useState(0);
 
   const handleInputChange = (value) => {
     const newConversations = [...conversations];
@@ -33,7 +35,13 @@ const App = () => {
     setConversations([...newConversations]);
   };
 
+  const updateCost = (tokensUsed, model) => {
+    const cost = (tokensUsed / 1000) * GPT_COST_PER_1000[model];
+    setTotalCost(totalCost + cost);
+  };
+
   const handleGenerateResponse = async () => {
+    setLoading(true);
     const prompt = conversations[currentIndex].input;
     const response = await generateText({
       prompt,
@@ -56,6 +64,8 @@ const App = () => {
     });
     setConversations([...newConversations]);
     setCurrentIndex(currentIndex + 1);
+    setLoading(false);
+    updateCost(tokensUsed, model);
     setTotalTokensUsed(totalTokensUsed + tokensUsed);
   };
 
@@ -71,6 +81,7 @@ const App = () => {
         collapsed={collapsed}
         setCollapsed={setCollapsed}
         tokensUsed={totalTokensUsed}
+        cost={totalCost}
       />
       <div className={`chat-container ${collapsed ? "no-margin" : ""}`}>
         {conversations.map((conversation, index) => (
@@ -95,6 +106,7 @@ const App = () => {
         <SubmitButton
           onClick={handleGenerateResponse}
           currentIndex={currentIndex}
+          disabled={loading}
         />
       </div>
     </div>

@@ -33,6 +33,16 @@ button:hover {
   background-color: rgb(224, 224, 224);
 }
 
+.button-disabled {
+  background-color: rgb(224, 224, 224);
+  color: rgb(128, 128, 128);
+  cursor: not-allowed;
+}
+
+.button-disabled:hover {
+  cursor: not-allowed;
+}
+
 .text-input-container {
   display: flex;
   flex-direction: column;
