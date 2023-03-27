@@ -1,15 +1,15 @@
 import React from "react";
 import { parseMarkdown } from "../scripts/parseMarkdown";
 
-function formatTime(dateItem) {
+const formatTime = (dateItem) => {
   const date = new Date(dateItem);
   const hours = date.getHours();
   let minutes = date.getMinutes();
   const amPm = hours >= 12 ? "PM" : "AM";
   const formattedHours = hours % 12 || 12;
   minutes = minutes < 10 ? "0" + minutes : minutes;
-  return `${formattedHours}:${minutes} ${amPm}`;
-}
+  return `${formattedHours}:${minutes} ${amPm} UTC`;
+};
 
 export const TextOutputBox = ({ response, model, timestamp, tokensUsed }) => {
   const classStyling = response.error
