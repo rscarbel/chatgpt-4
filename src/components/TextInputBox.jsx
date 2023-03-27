@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { debounce } from "lodash";
 
-export const TextInputBox = ({ isReadOnly = false, value, onChange }) => {
+export const TextInputBox = ({
+  isReadOnly = false,
+  value,
+  onChange,
+  index,
+}) => {
   const [height, setHeight] = useState(61);
 
   const detectTextHeight = debounce(() => {
-    const textArea = document.getElementById("text-input-area");
+    const textArea = document.getElementById(`text-input-area-${index}`);
     const currentHeight = textArea.style.height;
     textArea.style.height = "auto";
     const newHeight = textArea.scrollHeight;
@@ -19,7 +24,7 @@ export const TextInputBox = ({ isReadOnly = false, value, onChange }) => {
     <div className="text-input-container">
       <span className="speaker">You:</span>
       <textarea
-        id="text-input-area"
+        id={`text-input-area-${index}`}
         style={{ height: height }}
         value={value}
         onChange={(e) => {

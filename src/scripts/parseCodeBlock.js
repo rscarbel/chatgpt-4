@@ -1,64 +1,25 @@
 export const parseCodeBlock = (html) => {
-  const LANGUAGES = [
-    "javascript",
-    "css",
-    "ruby",
-    "python",
-    "java",
-    "C",
-    "C++",
-    "C#",
-    "PHP",
-    "Go",
-    "Rust",
-    "Swift",
-    "Kotlin",
-    "Dart",
-    "Scala",
-    "Haskell",
-    "R",
-    "Julia",
-    "MATLAB",
-    "Perl",
-    "Lua",
-    "SQL",
-    "Bash",
-    "PowerShell",
-    "TypeScript",
-    "JSON",
-    "YAML",
-    "Markdown",
-    "XML",
-    "GraphQL",
-    "Dockerfile",
-    "Makefile",
-    "CMake",
-    "Bazel",
-    "Gradle",
-    "ApacheConf",
-    "Nginx",
-    "VimL",
-    "Vim script",
-  ];
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
   const codeBlocks = doc.querySelectorAll("code");
   codeBlocks.forEach((codeBlock) => {
     const codeBlockText = codeBlock.innerHTML;
     const componentWords = codeBlockText.split(" ");
-    for (let i = 0; i < componentWords.length; i++) {
-      const word = componentWords[i];
-      if (LANGUAGES.includes(word)) {
-        componentWords[i] += "<br>------------------------------------<br>";
-      }
-      if (word.endsWith(";")) {
-        componentWords[i] += "<br>";
-      }
-      if (word === "{") {
-        componentWords[i] += "<br>&nbsp;&nbsp;";
-      }
-      if (word === "}") {
-        componentWords[i] = "<br>&nbsp;&nbsp;}";
+    if (componentWords[0] === "javascript") {
+      for (let i = 0; i < componentWords.length; i++) {
+        const word = componentWords[i];
+        if (word.endsWith(";")) {
+          componentWords[i] += "<br>";
+          continue;
+        }
+        if (word === "{") {
+          componentWords[i] += "<br>&nbsp;&nbsp;";
+          continue;
+        }
+        if (word === "}") {
+          componentWords[i] = "<br>&nbsp;&nbsp;}";
+          continue;
+        }
       }
     }
     codeBlock.innerHTML = componentWords.join(" ");

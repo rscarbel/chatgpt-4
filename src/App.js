@@ -92,6 +92,7 @@ const App = () => {
                 handleInputChange(e.target.value);
               }}
               isReadOnly={index !== currentIndex}
+              index={index}
             />
             {conversation.output.message && (
               <TextOutputBox
