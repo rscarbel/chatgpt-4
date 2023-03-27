@@ -17,6 +17,9 @@ export const generateText = async ({
   max_tokens = 1500,
   gptVersion = GPT_MODELS[0],
 }) => {
+  // // Content to test the api without using up tokens
+  // await new Promise((resolve) => setTimeout(resolve, 1000));
+
   // return TEST_RESPONSE;
 
   const validation = validate(prompt, max_tokens, gptVersion);
