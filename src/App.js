@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { generateText } from "./generateText";
-import { TextInputBox } from "./components/TextInputBox";
-import { TextOutputBox } from "./components/TextOutputBox";
 import { SubmitButton } from "./components/SubmitButton";
 import { Toolbar } from "./components/Toolbar";
+import { ChatContainer } from "./components/ChatContainer";
 import { GPT_MODELS, DEFAULT_MAX_TOKENS, GPT_COST_PER_1000 } from "./constants";
 import "./App.css";
 
@@ -83,33 +82,17 @@ const App = () => {
         tokensUsed={totalTokensUsed}
         cost={totalCost}
       />
-      <div className={`chat-container ${collapsed ? "no-margin" : ""}`}>
-        {conversations.map((conversation, index) => (
-          <div key={index}>
-            <TextInputBox
-              value={conversation.input}
-              onChange={(e) => {
-                handleInputChange(e.target.value);
-              }}
-              isReadOnly={index !== currentIndex}
-              index={index}
-            />
-            {conversation.output.message && (
-              <TextOutputBox
-                model={conversation.output.modelUsed}
-                response={conversation.output.message}
-                timestamp={conversation.output.timestamp}
-                tokensUsed={conversation.output.tokensUsed}
-              />
-            )}
-          </div>
-        ))}
-        <SubmitButton
-          onClick={handleGenerateResponse}
-          currentIndex={currentIndex}
-          disabled={loading}
-        />
-      </div>
+      <ChatContainer
+        conversations={conversations}
+        currentIndex={currentIndex}
+        loading={loading}
+        handleInputChange={handleInputChange}
+      />
+      <SubmitButton
+        onClick={handleGenerateResponse}
+        currentIndex={currentIndex}
+        disabled={loading}
+      />
     </div>
   );
 };

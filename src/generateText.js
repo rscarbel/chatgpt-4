@@ -96,7 +96,7 @@ function validateGptVersion(gptVersion) {
       message: `Invalid GPT version. Please use one of the following: ${GPT_MODELS.join(
         ", "
       )}`,
-      tokensUsed: 10,
+      tokensUsed: 0,
       model: "Localhost",
       timestamp: new Date().getTime(),
       messageHistory,
@@ -109,7 +109,7 @@ function validatePrompt(prompt) {
     return {
       error: true,
       message: "Prompt is too short. Please don't waste API calls.",
-      tokensUsed: 10,
+      tokensUsed: 0,
       model: "Localhost",
       timestamp: new Date().getTime(),
       messageHistory,
@@ -122,7 +122,7 @@ function validateMaxTokens(max_tokens, gptVersion) {
     return {
       error: true,
       message: `Max tokens is too high. Please use a value less than ${GPT_MAX_TOKENS[gptVersion]}`,
-      tokensUsed: 10,
+      tokensUsed: 0,
       model: "Localhost",
       timestamp: new Date().getTime(),
       messageHistory,

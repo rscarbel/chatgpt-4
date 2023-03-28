@@ -11,8 +11,14 @@ const formatTime = (dateItem) => {
   return `${formattedHours}:${minutes} ${amPm} UTC`;
 };
 
-export const TextOutputBox = ({ response, model, timestamp, tokensUsed }) => {
-  const classStyling = response.error
+export const TextOutputBox = ({
+  response = "",
+  model = "localhost",
+  timestamp = new Date().getTime(),
+  tokensUsed = 0,
+  error = false,
+}) => {
+  const classStyling = error
     ? "text-output-container-error small-shadow"
     : "text-output-container small-shadow";
 
