@@ -90,6 +90,7 @@ const App = () => {
         currentIndex={currentIndex}
         loading={loading}
         handleInputChange={handleInputChange}
+        isToolbarHidden={collapsed}
       />
       <SubmitButton
         onClick={handleGenerateResponse}

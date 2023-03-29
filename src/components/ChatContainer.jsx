@@ -7,9 +7,11 @@ export const ChatContainer = ({
   currentIndex,
   loading,
   handleInputChange,
+  isToolbarHidden,
 }) => {
+  const containerClass = isToolbarHidden ? "no-margin" : "large-top-margin";
   return (
-    <div className="chat-container">
+    <div className={containerClass}>
       {conversations.map((conversation, index) => (
         <div key={index}>
           <TextInputBox
