@@ -1,5 +1,6 @@
 import React from "react";
 import { parseMarkdown } from "../scripts/parseMarkdown";
+import "highlight.js/styles/github.css";
 
 const formatTime = (dateItem) => {
   const date = new Date(dateItem);
