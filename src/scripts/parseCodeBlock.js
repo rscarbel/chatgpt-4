@@ -1,6 +1,44 @@
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.css";
 
+const languages = [
+  "ruby",
+  "javascript",
+  "python",
+  "java",
+  "c#",
+  "php",
+  "sh",
+  "html",
+  "perl",
+  "go",
+  "rust",
+  "c++",
+  "c",
+  "html",
+  "css",
+  "xml",
+  "bash",
+  "json",
+  "typescript",
+  "swift",
+  "kotlin",
+  "scala",
+  "coffeescript",
+  "clojure",
+  "lua",
+  "matlab",
+  "r",
+  "sql",
+  "yaml",
+  "diff",
+  "dockerfile",
+  "makefile",
+  "markdown",
+  "nginx",
+  "powershell",
+];
+
 const addLineBreaksAndClasses = (html) => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
@@ -40,9 +78,15 @@ export const parseCodeBlock = (html) => {
     if (isOneWord) {
       codeBlock.innerHTML = modifiedText;
     } else {
-      const language = componentWords[0];
-      const code = componentWords.slice(1).join(" ");
-      codeBlock.innerHTML = hljs.highlight(language, code).value;
+      const language = languages.includes(componentWords[0].toLocaleLowerCase())
+        ? componentWords[0]
+        : null;
+      const code = language ? componentWords.slice(1).join(" ") : modifiedText;
+      if (language) {
+        codeBlock.innerHTML = hljs.highlight(language, code).value;
+      } else {
+        codeBlock.innerHTML = hljs.highlightAuto(code).value;
+      }
     }
   });
 
