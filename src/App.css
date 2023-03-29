@@ -139,10 +139,6 @@ textarea:focus {
   cursor: pointer;
 }
 
-.toolbar-collapse {
-  height: 20px;
-}
-
 .parameter {
   display: flex;
   flex-direction: column;
@@ -153,13 +149,6 @@ textarea:focus {
   border-radius: 1em;
   margin: 1em;
   background-color: white;
-}
-.parameter-collapse {
-  display: none;
-}
-
-.hidden {
-  display: none;
 }
 
 .parameter label {
@@ -255,10 +244,6 @@ textarea:focus {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.3s ease-in-out;
-}
-
-.hidden {
-  display: none;
 }
 
 .request-cost {

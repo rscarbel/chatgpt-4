@@ -67,21 +67,24 @@ const App = () => {
     updateCost(tokensUsed, model);
     setTotalTokensUsed(totalTokensUsed + tokensUsed);
   };
+  const toolbarClassName = collapsed ? "toolbar-collapsed" : "toolbar";
 
   return (
     <div className="App">
-      <Toolbar
-        model={model}
-        setModel={setModel}
-        maxTokens={maxTokens}
-        setMaxTokens={setMaxTokens}
-        temperature={temperature}
-        setTemperature={setTemperature}
-        collapsed={collapsed}
-        setCollapsed={setCollapsed}
-        tokensUsed={totalTokensUsed}
-        cost={totalCost}
-      />
+      <div className={toolbarClassName}>
+        <Toolbar
+          model={model}
+          setModel={setModel}
+          maxTokens={maxTokens}
+          setMaxTokens={setMaxTokens}
+          temperature={temperature}
+          setTemperature={setTemperature}
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+          tokensUsed={totalTokensUsed}
+          cost={totalCost}
+        />
+      </div>
       <ChatContainer
         conversations={conversations}
         currentIndex={currentIndex}

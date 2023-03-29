@@ -11,6 +11,5 @@ module.exports = {
   coverageReporters: ["html", "text"],
   coveragePathIgnorePatterns: ["/node_modules/", "/dist/"],
   testEnvironment: "jsdom",
-  type: "module",
   transformIgnorePatterns: ["node_modules/(?!(example-library)/)"],
 };

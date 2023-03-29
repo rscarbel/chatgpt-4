@@ -1,6 +1,6 @@
 import React from "react";
 import { chevronDown, chevronUp } from "../icons";
-import { QuestionTooltip } from "./questionTooltip";
+import { QuestionTooltip } from "./QuestionTooltip";
 import { GPT_MODELS, GPT_MAX_TOKENS, DEFAULT_MAX_TOKENS } from "../constants";
 
 const MAX_TEMPERATURE = 2;
@@ -55,88 +55,70 @@ export const Toolbar = ({
     setCollapsed(!collapsed);
   };
 
-  const parameterClassNames = collapsed ? "parameter-collapsed" : "parameter";
-  const hiddenClassName = collapsed ? "hidden" : "";
-  const toolbarClassName = collapsed ? "toolbar-collapsed" : "toolbar";
-
   return (
     <>
-      <div className={toolbarClassName}>
-        <div className={parameterClassNames}>
-          <label className={hiddenClassName} htmlFor="model-select">
-            Model:
-          </label>
-          <select
-            className={hiddenClassName}
-            id="model-select"
-            value={model}
-            onChange={handleModelChange}
-          >
-            {GPT_MODELS.map((m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className={parameterClassNames}>
-          <label className={hiddenClassName} htmlFor="max-tokens-input">
-            Max Tokens:
-          </label>
-          <input
-            id="max-tokens-input"
-            className={hiddenClassName}
-            type="text"
-            value={maxTokens}
-            onChange={handleMaxTokensChange}
-          />
-          <input
-            type="range"
-            className={hiddenClassName}
-            min="1"
-            max={GPT_MAX_TOKENS[model]}
-            value={maxTokens}
-            onChange={(e) => setMaxTokens(parseInt(e.target.value))}
-          />
-          <QuestionTooltip answer={maxTokensDescription} isHidden={collapsed} />
-        </div>
-        <div className={parameterClassNames}>
-          <label className={hiddenClassName} htmlFor="temperature-input">
-            Temperature:
-          </label>
-          <input
-            className={hiddenClassName}
-            id="temperature-input"
-            type="text"
-            value={temperature}
-            onChange={handleTemperatureChange}
-          />
-          <input
-            className={hiddenClassName}
-            type="range"
-            min="0"
-            max="2"
-            step="0.1"
-            value={temperature}
-            onChange={(e) => setTemperature(parseFloat(e.target.value))}
-          />
-          <QuestionTooltip
-            answer={temperatureDescription}
-            isHidden={collapsed}
-          />
-        </div>
-        <div className={parameterClassNames}>
-          <label className={hiddenClassName}>Tokens Used: {tokensUsed}</label>
-          <label className={hiddenClassName}>
-            Total cost: ${trimCost(cost)}
-          </label>
-        </div>
-        <div
-          className={`collapse-icon${collapsed ? "-collapsed" : ""}`}
-          onClick={handleCollapse}
-        >
-          {collapsed ? chevronDown : chevronUp}
-        </div>
+      {!collapsed && (
+        <>
+          <div className="parameter">
+            <label htmlFor="model-select">Model:</label>
+            <select
+              id="model-select"
+              value={model}
+              onChange={handleModelChange}
+            >
+              {GPT_MODELS.map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="parameter">
+            <label htmlFor="max-tokens-input">Max Tokens:</label>
+            <input
+              id="max-tokens-input"
+              type="text"
+              value={maxTokens}
+              onChange={handleMaxTokensChange}
+            />
+            <input
+              type="range"
+              min="1"
+              max={GPT_MAX_TOKENS[model]}
+              value={maxTokens}
+              onChange={(e) => setMaxTokens(parseInt(e.target.value))}
+            />
+            <QuestionTooltip answer={maxTokensDescription} />
+          </div>
+          <div className="parameter">
+            <label htmlFor="temperature-input">Temperature:</label>
+            <input
+              id="temperature-input"
+              type="text"
+              value={temperature}
+              onChange={handleTemperatureChange}
+            />
+            <input
+              type="range"
+              min="0"
+              max="2"
+              step="0.1"
+              value={temperature}
+              onChange={(e) => setTemperature(parseFloat(e.target.value))}
+            />
+            <QuestionTooltip answer={temperatureDescription} />
+          </div>
+          <div className="parameter">
+            <label>Tokens Used: {tokensUsed}</label>
+            <label>Total cost: ${trimCost(cost)}</label>
+          </div>
+        </>
+      )}
+      <div
+        className={`collapse-icon${collapsed ? "-collapsed" : ""}`}
+        onClick={handleCollapse}
+      >
+        {collapsed ? chevronDown : chevronUp}
       </div>
     </>
   );
