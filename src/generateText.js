@@ -68,6 +68,8 @@ export const generateText = async ({
       error: true,
       message: `Error generating response: ${error?.message}`,
       model: "Localhost",
+      tokensUsed: 0,
+      timestamp: new Date().getTime(),
     };
   }
 };
