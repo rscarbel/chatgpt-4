@@ -10,7 +10,8 @@ export const GPT_COST_PER_1000 = {
 
 export const GPT_MODELS = Object.keys(GPT_MAX_TOKENS);
 
-export const DEFAULT_MAX_TOKENS = 1500;
+//setting this to a low value because initially I almost exclusively use this to set up context
+export const DEFAULT_MAX_TOKENS = 100;
 
 export const ROLES = ["user", "assistant", "system"];
 
