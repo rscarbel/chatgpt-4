@@ -22,7 +22,7 @@ const App = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [model, setModel] = useState(GPT_MODELS[0]);
   const [maxTokens, setMaxTokens] = useState(DEFAULT_MAX_TOKENS);
-  const [temperature, setTemperature] = useState(1);
+  const [temperature, setTemperature] = useState(0.3);
   const [collapsed, setCollapsed] = useState(false);
   const [totalTokensUsed, setTotalTokensUsed] = useState(0);
   const [loading, setLoading] = useState(false);
