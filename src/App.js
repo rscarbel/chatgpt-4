@@ -3,7 +3,7 @@ import { generateText } from "./generateText";
 import { SubmitButton } from "./components/SubmitButton";
 import { Toolbar } from "./components/Toolbar";
 import { ChatContainer } from "./components/ChatContainer";
-import { GPT_MODELS, DEFAULT_MAX_TOKENS, GPT_COST_PER_1000 } from "./constants";
+import { GPT_MODELS, GPT_COST_PER_1000 } from "./constants";
 import "./App.css";
 
 const App = () => {
@@ -21,7 +21,6 @@ const App = () => {
   ]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [model, setModel] = useState(GPT_MODELS[0]);
-  const [maxTokens, setMaxTokens] = useState(DEFAULT_MAX_TOKENS);
   const [temperature, setTemperature] = useState(0.3);
   const [collapsed, setCollapsed] = useState(false);
   const [totalTokensUsed, setTotalTokensUsed] = useState(0);
@@ -45,14 +44,13 @@ const App = () => {
     const response = await generateText({
       prompt,
       gptVersion: model,
-      maxTokens,
       temperature,
     });
     const tokensUsed = response.tokensUsed;
     const newConversations = [...conversations];
     newConversations[currentIndex].output = {
       error: response.error,
-      message: response.message,
+      message: `\`\`\`${response.message}\`\`\``,
       timestamp: response.timestamp,
       modelUsed: response.model,
       tokensUsed,
@@ -72,11 +70,10 @@ const App = () => {
   return (
     <div className="App">
       <div className={toolbarClassName}>
+        {console.log("message", conversations[currentIndex].output.message)}
         <Toolbar
           model={model}
           setModel={setModel}
-          maxTokens={maxTokens}
-          setMaxTokens={setMaxTokens}
           temperature={temperature}
           setTemperature={setTemperature}
           collapsed={collapsed}

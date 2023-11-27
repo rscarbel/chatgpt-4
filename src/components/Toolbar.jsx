@@ -1,7 +1,7 @@
 import React from "react";
 import { chevronDown, chevronUp } from "../icons";
 import { QuestionTooltip } from "./QuestionTooltip";
-import { GPT_MODELS, GPT_MAX_TOKENS, DEFAULT_MAX_TOKENS } from "../constants";
+import { GPT_MODELS, GPT_MAX_TOKENS } from "../constants";
 
 const MAX_TEMPERATURE = 2;
 
@@ -22,8 +22,6 @@ const trimCost = (cost) => {
 export const Toolbar = ({
   model,
   setModel,
-  maxTokens,
-  setMaxTokens,
   temperature,
   setTemperature,
   collapsed,
@@ -34,14 +32,6 @@ export const Toolbar = ({
   const handleModelChange = (event) => {
     const newModel = event.target.value;
     setModel(newModel);
-    setMaxTokens(GPT_MAX_TOKENS[newModel]);
-  };
-
-  const handleMaxTokensChange = (event) => {
-    const value = event.target.value;
-    if (!isNaN(value) && value >= 0 && value <= GPT_MAX_TOKENS[model]) {
-      setMaxTokens(parseInt(value));
-    }
   };
 
   const handleTemperatureChange = (event) => {
@@ -72,23 +62,6 @@ export const Toolbar = ({
                 </option>
               ))}
             </select>
-          </div>
-          <div className="parameter">
-            <label htmlFor="max-tokens-input">Max Tokens:</label>
-            <input
-              id="max-tokens-input"
-              type="text"
-              value={maxTokens}
-              onChange={handleMaxTokensChange}
-            />
-            <input
-              type="range"
-              min="1"
-              max={GPT_MAX_TOKENS[model]}
-              value={maxTokens}
-              onChange={(e) => setMaxTokens(parseInt(e.target.value))}
-            />
-            <QuestionTooltip answer={maxTokensDescription} />
           </div>
           <div className="parameter">
             <label htmlFor="temperature-input">Temperature:</label>

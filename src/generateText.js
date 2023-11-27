@@ -1,31 +1,62 @@
-import { GPT_MODELS, GPT_MAX_TOKENS, TEST_RESPONSE } from "./constants";
+import {
+  GPT_MODELS,
+  TEST_RESPONSE,
+  DEFAULT_MAX_TOKENS,
+  OPEN_AI,
+} from "./constants";
 import axios from "axios";
-const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
+const API_KEY = process.env.OPENAI_API_KEY;
 const OPEN_AI_URL = "https://api.openai.com/v1/chat/completions";
 
 const messageHistory = [
   {
     role: "system",
-    content:
-      "You are an expert web developer. When you receive a message here, any part of it wrapped in backticks you will treat as code. You use ruby on rails and javascript with react. You always write clean code, break code apart into small chunks, do not comment code unless it can be unclear. You use modern javascript syntax. You prefer destructuring props in react functional components. When you write tests in ruby, you use rspec, and you prefer to create variables using fabricators in this format: let(:user) { Fabricate(:user) }. When you write tests in javascript, you use jest and write in the Arrange, Act, Assert pattern. You write variables in jest test like this: ```const mockSomething =```. You mock functions that are in props like this: ```const mockOnSomethingChange = jest.fn();```. You never rely on mocking a redux store. The dependencies you use in your jest tests are import { render, screen, waitFor } from '@testing-library/react';import userEvent from '@testing-library/user-event'; import { MockedProvider } from '@apollo/client/testing'; import { MemoryRouter } from 'react-router-dom'; import '@testing-library/jest-dom'; import moment from 'moment';",
+    content: `You are a helpful chatbot that parses a resume and returns the data from it in JSON format. The JSON format should be the fields listed here. If there is no possible way to fill in the content, make the field an empty string. Return the parsed resume in the following JSON format:
+    {
+      "linkedin_url": "",
+      "postal_code": "",
+      "city": "",
+      "country": "",
+      "region_name": "", #state or province
+      "is_willing_to_relocate": "",
+      "availability": "", # "ASAP", "With notice", or "By a certain date" --> default "With Notice"
+      "education_history": [{
+        "college_name": "",
+        "degree_major": "",
+        "month_start": "", #lowercase full month name
+        "year_start": "", #integer
+        "month_end": "", #lowercase full month name
+        "year_end": "", #integer
+        "is_still_in_school_here": "", # true or false
+      }],
+      work_history: {
+        total_years_of_experience: "",
+        [{
+          "title": "",
+          "company_name": "",
+          "month_start": "", #lowercase full month name
+          "month_end": "", #lowercase full month name
+          "year_start": "", #integer
+          "year_end": "", #integer
+          "still_works_here": "",
+        }],
+      },
+      "occupation_field_category": "", 
+      "primary_skills": [], # no more than 5
+      "secondary_skills": [], # no more than 5
+      "one_line_summary": "", # one sentence summary
+    }
+    `,
   },
 ];
 
 export const generateText = async ({
   prompt,
-  temperature = 1,
-  max_tokens = 1500,
+  temperature = 0.3,
+  responseFormat = "json_object",
   gptVersion = GPT_MODELS[0],
 }) => {
-  // // Content to test the api without using up tokens
-  // await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  // return TEST_RESPONSE;
-
-  const validation = validate(prompt, max_tokens, gptVersion);
-  if (validation?.error) {
-    return validation;
-  }
+  const max_tokens = DEFAULT_MAX_TOKENS - prompt.length;
 
   messageHistory.push({
     role: "user",
@@ -33,23 +64,18 @@ export const generateText = async ({
   });
 
   try {
-    const response = await axios.post(
-      OPEN_AI_URL,
-      {
-        model: gptVersion,
-        messages: messageHistory,
-        temperature: temperature,
-        max_tokens: max_tokens,
-        user: "Ryan's App",
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`,
-        },
-      }
-    );
-    const responseMessage = response?.data?.choices[0]?.message?.content;
+    const response = await OPEN_AI.chat.completions.create({
+      model: gptVersion,
+      response_format: { type: responseFormat },
+      messages: messageHistory,
+      temperature: temperature,
+      max_tokens: max_tokens,
+      user: "Resume Parser",
+    });
+
+    const responseMessage = response?.choices[0]?.message?.content;
+    console.log(response);
+    const parsedMessage = JSON.stringify(JSON.parse(responseMessage), null, 2);
 
     messageHistory.push({
       role: "assistant",
@@ -58,10 +84,10 @@ export const generateText = async ({
 
     return {
       error: false,
-      message: responseMessage,
-      tokensUsed: response?.data?.usage?.total_tokens,
-      model: response?.data?.model,
-      timestamp: response?.data?.created,
+      message: parsedMessage,
+      tokensUsed: response?.usage?.total_tokens,
+      model: response?.model,
+      timestamp: response?.created,
     };
   } catch (error) {
     return {
@@ -73,61 +99,3 @@ export const generateText = async ({
     };
   }
 };
-
-function validate(prompt, max_tokens, gptVersion) {
-  const gptVersionValidation = validateGptVersion(gptVersion);
-  if (gptVersionValidation?.error) {
-    return gptVersionValidation;
-  }
-
-  const promptValidation = validatePrompt(prompt);
-  if (promptValidation?.error) {
-    return promptValidation;
-  }
-
-  const maxTokensValidation = validateMaxTokens(max_tokens, gptVersion);
-  if (maxTokensValidation?.error) {
-    return maxTokensValidation;
-  }
-}
-
-function validateGptVersion(gptVersion) {
-  if (!GPT_MODELS.includes(gptVersion)) {
-    return {
-      error: true,
-      message: `Invalid GPT version. Please use one of the following: ${GPT_MODELS.join(
-        ", "
-      )}`,
-      tokensUsed: 0,
-      model: "Localhost",
-      timestamp: new Date().getTime(),
-      messageHistory,
-    };
-  }
-}
-
-function validatePrompt(prompt) {
-  if (prompt.length < 2) {
-    return {
-      error: true,
-      message: "Prompt is too short. Please don't waste API calls.",
-      tokensUsed: 0,
-      model: "Localhost",
-      timestamp: new Date().getTime(),
-      messageHistory,
-    };
-  }
-}
-
-function validateMaxTokens(max_tokens, gptVersion) {
-  if (max_tokens > GPT_MAX_TOKENS[gptVersion]) {
-    return {
-      error: true,
-      message: `Max tokens is too high. Please use a value less than ${GPT_MAX_TOKENS[gptVersion]}`,
-      tokensUsed: 0,
-      model: "Localhost",
-      timestamp: new Date().getTime(),
-      messageHistory,
-    };
-  }
-}

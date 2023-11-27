@@ -1,20 +1,26 @@
+import OpenAI from "openai";
+
 export const GPT_MAX_TOKENS = {
-  "gpt-3.5-turbo": 4096,
+  "gpt-3.5-turbo-1106": 4096,
   "gpt-4": 8192,
 };
 
 export const GPT_COST_PER_1000 = {
-  "gpt-3.5-turbo": 0.002,
-  "gpt-4": 0.06,
+  "gpt-3.5-turbo-1106": 0.002,
+  "gpt-4-1106-preview": 0.06,
 };
+
+export const OPEN_AI = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true,
+});
 
 export const GPT_MODELS = Object.keys(GPT_MAX_TOKENS);
 
 //setting this to a low value because initially I almost exclusively use this to set up context
-export const DEFAULT_MAX_TOKENS = 100;
+export const DEFAULT_MAX_TOKENS = 4096;
 
 export const ROLES = ["user", "assistant", "system"];
-
 
 export const TEST_RESPONSE = {
   error: false,
@@ -47,4 +53,3 @@ export const EXAMPLE_RESPONSE = {
     },
   ],
 };
-
